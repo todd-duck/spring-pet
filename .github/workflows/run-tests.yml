@@ -1,14 +1,13 @@
-name: maven build
+name: Run Tests
 
 on:
-  push:
-    branches:
-      - '*'
-  pull_request:
-    branches:
-      - '*'
+  workflow_run:
+    workflows: ["maven build"]
+    types:
+      - completed
+
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
@@ -20,8 +19,5 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
         cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
- 
-    - name: Test with Maven
+    - name: Run Tests
       run: mvn -B test
